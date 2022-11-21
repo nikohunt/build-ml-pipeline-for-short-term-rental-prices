@@ -4,7 +4,6 @@ conda_env: conda.yml
 entry_points:
   main:
     parameters:
-
       csv:
         description: Input CSV file to be tested
         type: string
@@ -25,4 +24,20 @@ entry_points:
         description: Maximum accepted price
         type: float
 
-    command: "pytest . -vv --csv {csv} --ref {ref} --kl_threshold {kl_threshold} --min_price {min_price} --max_price {max_price}"
+      min_longitude:
+        description: Minimum accepted longitude
+        type: float
+
+      max_longitude:
+        description: Maximum accepted longitude
+        type: float
+
+      min_latitude:
+        description: Minimum accepted latitude
+        type: float
+
+      max_latitude:
+        description: Maximum accepted latitude
+        type: float
+
+    command: "pytest . -vv --csv {csv} --ref {ref} --kl_threshold {kl_threshold} --min_price {min_price} --max_price {max_price} --min_longitude {min_longitude} --max_longitude {max_longitude} --min_latitude {min_latitude} --max_latitude {max_latitude}"

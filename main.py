@@ -51,7 +51,9 @@ def go(config: DictConfig):
 
         if "basic_cleaning" in active_steps:
             _ = mlflow.run(
-                os.path.join(hydra.utils.get_original_cwd(), "src", "basic_cleaning"),
+                os.path.join(
+                    hydra.utils.get_original_cwd(), "src", "basic_cleaning"
+                ),
                 "main",
                 parameters={
                     "input_artifact": "sample.csv:latest",
@@ -60,12 +62,18 @@ def go(config: DictConfig):
                     "output_description": "Data with outliers and null values removed",
                     "min_price": config["etl"]["min_price"],
                     "max_price": config["etl"]["max_price"],
+                    "min_longitude": config["etl"]["min_longitude"],
+                    "max_longitude": config["etl"]["max_longitude"],
+                    "min_latitude": config["etl"]["min_latitude"],
+                    "max_latitude": config["etl"]["max_latitude"],
                 },
             )
 
         if "data_check" in active_steps:
             _ = mlflow.run(
-                os.path.join(hydra.utils.get_original_cwd(), "src", "data_check"),
+                os.path.join(
+                    hydra.utils.get_original_cwd(), "src", "data_check"
+                ),
                 "main",
                 parameters={
                     "csv": "clean_sample.csv:latest",
@@ -101,7 +109,9 @@ def go(config: DictConfig):
 
             _ = mlflow.run(
                 os.path.join(
-                    hydra.utils.get_original_cwd(), "src", "train_random_forest"
+                    hydra.utils.get_original_cwd(),
+                    "src",
+                    "train_random_forest",
                 ),
                 "main",
                 parameters={
@@ -110,7 +120,9 @@ def go(config: DictConfig):
                     "random_seed": config["modeling"]["random_seed"],
                     "stratify_by": config["modeling"]["stratify_by"],
                     "rf_config": rf_config,
-                    "max_tfidf_features": config["modeling"]["max_tfidf_features"],
+                    "max_tfidf_features": config["modeling"][
+                        "max_tfidf_features"
+                    ],
                     "output_artifact": "random_forest_export",
                 },
             )

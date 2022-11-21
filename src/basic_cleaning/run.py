@@ -29,6 +29,11 @@ def go(args):
     # Drop outliers
     min_price = args.min_price
     max_price = args.max_price
+    min_longitude = args.min_longitude
+    max_longitude = args.max_longitude
+    min_latitude = args.min_latitude
+    max_latitude = args.max_latitude
+
     logger.info(
         "Dropping outliers outside of {min_price} and \
         {max_price} boundaries"
@@ -41,7 +46,9 @@ def go(args):
     df["last_review"] = pd.to_datetime(df["last_review"])
 
     # Drop out-of-bounds datapoints
-    idx = df["longitude"].between(-74.25, -73.50) & df["latitude"].between(40.5, 41.2)
+    idx = df["longitude"].between(min_longitude, max_longitude) & df["latitude"].between(
+        min_latitude, max_latitude
+    )
     df = df[idx].copy()
 
     # Save and upload cleaned dataframe to csv
@@ -59,7 +66,9 @@ def go(args):
 
 if __name__ == "__main__":
 
-    parser = argparse.ArgumentParser(description="Performs basic cleaning of data")
+    parser = argparse.ArgumentParser(
+        description="Performs basic cleaning of data"
+    )
 
     parser.add_argument(
         "--input_artifact",
@@ -100,6 +109,34 @@ if __name__ == "__main__":
         "--max_price",
         type=float,
         help="Ceiling of location price for dataset filtering",
+        required=True,
+    )
+
+    parser.add_argument(
+        "--min_longitude",
+        type=float,
+        help="Floor of location longitude for dataset filtering",
+        required=True,
+    )
+
+    parser.add_argument(
+        "--max_longitude",
+        type=float,
+        help="Ceiling of location longitude for dataset filtering",
+        required=True,
+    )
+
+    parser.add_argument(
+        "--min_latitude",
+        type=float,
+        help="Floor of location latitude for dataset filtering",
+        required=True,
+    )
+
+    parser.add_argument(
+        "--max_latitude",
+        type=float,
+        help="Ceiling of location latitude for dataset filtering",
         required=True,
     )
 

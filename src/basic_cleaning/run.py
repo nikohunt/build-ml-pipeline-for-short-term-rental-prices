@@ -29,22 +29,24 @@ def go(args):
     # Drop outliers
     min_price = args.min_price
     max_price = args.max_price
-    logger.info("Dropping outliers outside of {min_price} and \
-        {max_price} boundaries")
-    idx = df['price'].between(min_price, max_price)
+    logger.info(
+        "Dropping outliers outside of {min_price} and \
+        {max_price} boundaries"
+    )
+    idx = df["price"].between(min_price, max_price)
     df = df[idx].copy()
 
     # Convert last_review to datetime
     logger.info("Converting last_review to datetime")
-    df['last_review'] = pd.to_datetime(df['last_review'])
+    df["last_review"] = pd.to_datetime(df["last_review"])
 
     # Drop out-of-bounds datapoints
-    idx = df['longitude'].between(-74.25, -73.50) & df['latitude'].between(40.5, 41.2)
+    idx = df["longitude"].between(-74.25, -73.50) & df["latitude"].between(40.5, 41.2)
     df = df[idx].copy()
-    
+
     # Save and upload cleaned dataframe to csv
     df.to_csv(args.output_artifact, index=False)
-    
+
     logging.info("Uploading cleaned csv")
     artifact = wandb.Artifact(
         args.output_artifact,
@@ -59,47 +61,46 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="Performs basic cleaning of data")
 
-
     parser.add_argument(
-        "--input_artifact", 
+        "--input_artifact",
         type=str,
         help="W&B raw dataset for basic preprocessing",
-        required=True
+        required=True,
     )
 
     parser.add_argument(
-        "--output_artifact", 
+        "--output_artifact",
         type=str,
         help="Cleaned dataset to be uploaded to W&B",
-        required=True
+        required=True,
     )
 
     parser.add_argument(
-        "--output_type", 
+        "--output_type",
         type=str,
         help="Type of the preprocessed artfact displayed in W&B",
-        required=True
+        required=True,
     )
 
     parser.add_argument(
-        "--output_description", 
+        "--output_description",
         type=str,
         help="Description for the preprocessed artfact displayed in W&B",
-        required=True
+        required=True,
     )
 
     parser.add_argument(
-        "--min_price", 
+        "--min_price",
         type=float,
         help="Floor of location price for dataset filtering",
-        required=True
+        required=True,
     )
 
     parser.add_argument(
-        "--max_price", 
+        "--max_price",
         type=float,
         help="Ceiling of location price for dataset filtering",
-        required=True
+        required=True,
     )
 
     args = parser.parse_args()

@@ -1,8 +1,9 @@
 # Build an ML Pipeline for Short-Term Rental Prices in NYC
 
-#### Public Weights and Biases Project
+#### Public Project Links
 
-[https://wandb.ai/nikohunt/nyc_airbnb](https://wandb.ai/nikohunt/nyc_airbnb)
+- [Weights and Biases](https://wandb.ai/nikohunt/nyc_airbnb)
+- [GitHub](https://github.com/nikohunt/build-ml-pipeline-for-short-term-rental-prices)
 
 #### Project Scenario
 You are working for a property management company renting rooms and properties for short periods of
